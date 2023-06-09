@@ -38,11 +38,21 @@ function App() {
       objectID: 1,
     },
   ];
+  // A callback handler gets
+  //   introduced as event handler(A), is passed as function in props to another component(B), is executed
+  //   there as callback handler(C), and calls back to the place it was introduced(D):
+
+  //A
+  const handleSearch = (event) => {
+    //d
+    console.log(event.target.value);
+  };
 
   return (
     <div>
       <h1>Pruebas</h1>
-      <Search />
+      {/* //B */}
+      <Search onSearch={handleSearch} />
       <hr />
       <br />
 
@@ -59,9 +69,9 @@ function List(props) {
     <ul>
       {props.list.map(function (item) {
         return (
-          <Item key={item.objectID} item={item}/>
+          <Item key={item.objectID} item={item} />
 
-          
+
         );
       })}
     </ul>
@@ -78,10 +88,12 @@ const Item = (props) => (
   </li>
 );
 
-function Search() {
+function Search(props) {
   const [searchTerm, setSearchTerm] = React.useState("");
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
+    //C
+    props.onSearch(event);
   };
 
   return (
