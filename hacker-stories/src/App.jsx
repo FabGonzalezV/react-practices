@@ -1,23 +1,6 @@
 import * as React from 'react';
 
-const stories = [
-  {
-    title: 'React',
-    url: 'https://reactjs.org/',
-    author: 'Jordan Walke',
-    num_comments: 3,
-    points: 4,
-    objectID: 0,
-  },
-  {
-    title: 'Redux',
-    url: 'https://redux.js.org/',
-    author: 'Dan Abramov, Andrew Clark',
-    num_comments: 2,
-    points: 5,
-    objectID: 1,
-  },
-];
+
 
 function App() {
   const stories = [
@@ -37,7 +20,17 @@ function App() {
       points: 5,
       objectID: 1,
     },
+    {
+      title: 'express',
+      url: 'https://redux.js.org/',
+      author: 'Dan Abramov, Andrew Clark',
+      num_comments: 2,
+      points: 5,
+      objectID: 2,
+    },
   ];
+
+  const [searchTerm, setSearchTerm] = React.useState("");
   // A callback handler gets
   //   introduced as event handler(A), is passed as function in props to another component(B), is executed
   //   there as callback handler(C), and calls back to the place it was introduced(D):
@@ -45,8 +38,13 @@ function App() {
   //A
   const handleSearch = (event) => {
     //d
-    console.log(event.target.value);
+    setSearchTerm(event.target.value);
+
   };
+
+  const searchedStories = stories.filter((story) =>
+    story.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div>
@@ -55,8 +53,8 @@ function App() {
       <Search onSearch={handleSearch} />
       <hr />
       <br />
-
-      <List list={stories} />
+      <span>{searchTerm}</span>
+      <List list={searchedStories} />
     </div>
 
 
@@ -89,20 +87,12 @@ const Item = (props) => (
 );
 
 function Search(props) {
-  const [searchTerm, setSearchTerm] = React.useState("");
-  const handleChange = (event) => {
-    setSearchTerm(event.target.value);
-    //C
-    props.onSearch(event);
-  };
+
 
   return (
     <div>
       <label htmlFor="Search"></label>
-      <input id='Search' type="text" onChange={handleChange} />
-      <p>
-        Searching for <strong>{searchTerm}</strong>.
-      </p>
+      <input id="search" type="text" onChange={props.onSearch} />
     </div>
   );
 }
