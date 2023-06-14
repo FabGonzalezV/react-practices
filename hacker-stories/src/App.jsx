@@ -30,7 +30,7 @@ function App() {
     },
   ];
 
-  const [searchTerm, setSearchTerm] = React.useState("");
+  const [searchTerm, setSearchTerm] = React.useState('React');
   // A callback handler gets
   //   introduced as event handler(A), is passed as function in props to another component(B), is executed
   //   there as callback handler(C), and calls back to the place it was introduced(D):
@@ -50,7 +50,7 @@ function App() {
     <div>
       <h1>Pruebas</h1>
       {/* //B */}
-      <Search onSearch={handleSearch} />
+      <Search search={searchTerm} onSearch={handleSearch} />
       <hr />
       <br />
       <span>{searchTerm}</span>
@@ -92,7 +92,7 @@ function Search(props) {
   return (
     <div>
       <label htmlFor="Search"></label>
-      <input id="search" type="text" onChange={props.onSearch} />
+      <input id="search" type="text" value={props.search} onChange={props.onSearch} />
     </div>
   );
 }
