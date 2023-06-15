@@ -62,23 +62,15 @@ function App() {
   );
 }
 
+// Variation 2: Spread and Rest Operators
 const List = ({ list }) => (
   <ul>
-    {list.map((item) => (
-      <Item key={item.objectID} item={item} />
+    {list.map(({ objectID, ...item }) => (
+      <Item key={objectID} {...item} />
     ))}
   </ul>
 );
-//nested destructuring
-const Item = ({
-  item: {
-    title,
-    url,
-    author,
-    num_comments,
-    points,
-  },
-}) => (
+const Item = ({ title, url, author, num_comments, points }) => (
   <li>
     <span>
       <a href={url}>{title}</a>
@@ -88,7 +80,6 @@ const Item = ({
     <span>{points}</span>
   </li>
 );
-
 const Search = ({ search, onSearch }) => (
   <div>
     <label htmlFor="search">Search: </label>
