@@ -1,7 +1,15 @@
 import * as React from 'react';
 
 
-
+const useStorageState = (key, initialState) => {
+  const [value, setValue] = React.useState(
+    localStorage.getItem(key) || initialState
+  );
+  React.useEffect(() => {
+    localStorage.setItem(key, value);
+  }, [value, key]);
+  return [value, setValue];
+};
 function App() {
   const stories = [
     {
@@ -30,9 +38,9 @@ function App() {
     },
   ];
 
-  const [searchTerm, setSearchTerm] = React.useState(
-    localStorage.getItem('search') || 'React'
-  );
+  const [searchTerm, setSearchTerm] = useStorageState(
+    'search',
+    'React');
   // A callback handler gets
   //   introduced as event handler(A), is passed as function in props to another component(B), is executed
   //   there as callback handler(C), and calls back to the place it was introduced(D):
