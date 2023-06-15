@@ -94,7 +94,7 @@ const Item = ({ title, url, author, num_comments, points }) => (
   </li>
 );
 const Search = ({ search, onSearch }) => (
-  <div>
+  <>
     <label htmlFor="search">Search: </label>
     <input
       id="search"
@@ -102,6 +102,6 @@ const Search = ({ search, onSearch }) => (
       value={search}
       onChange={onSearch}
     />
-  </div>
+  </>
 );
 export default App;
