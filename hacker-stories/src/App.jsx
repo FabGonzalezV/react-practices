@@ -30,16 +30,21 @@ function App() {
     },
   ];
 
-  const [searchTerm, setSearchTerm] = React.useState('React');
+  const [searchTerm, setSearchTerm] = React.useState(
+    localStorage.getItem('search') || 'React'
+  );
   // A callback handler gets
   //   introduced as event handler(A), is passed as function in props to another component(B), is executed
   //   there as callback handler(C), and calls back to the place it was introduced(D):
 
+  React.useEffect(() => {
+    localStorage.setItem('search', searchTerm);
+  }, [searchTerm]);
   //A
   const handleSearch = (event) => {
     //d
     setSearchTerm(event.target.value);
-
+    
   };
 
   const searchedStories = stories.filter((story) =>
