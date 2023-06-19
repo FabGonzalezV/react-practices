@@ -52,7 +52,7 @@ function App() {
   const handleSearch = (event) => {
     //d
     setSearchTerm(event.target.value);
-    
+
   };
 
   const searchedStories = stories.filter((story) =>
@@ -63,10 +63,12 @@ function App() {
     <div>
       <h1>Pruebas</h1>
       {/* //B */}
-      <Search search={searchTerm} onSearch={handleSearch} />
-      <hr />
-      <br />
-      <span>{searchTerm}</span>
+      <InputWithLabel
+        id="search"
+        label="Search"
+        value={searchTerm}
+        onInputChange={handleSearch}
+      />
       <List list={searchedStories} />
     </div>
 
@@ -93,14 +95,22 @@ const Item = ({ title, url, author, num_comments, points }) => (
     <span>{points}</span>
   </li>
 );
-const Search = ({ search, onSearch }) => (
+
+const InputWithLabel = ({
+  id,
+  label,
+  value,
+  type = 'text',
+  onInputChange,
+}) => (
   <>
-    <label htmlFor="search">Search: </label>
+    <label htmlFor={id}>{label}</label>
+    &nbsp;
     <input
-      id="search"
-      type="text"
-      value={search}
-      onChange={onSearch}
+      id={id}
+      type={type}
+      value={value}
+      onChange={onInputChange}
     />
   </>
 );
