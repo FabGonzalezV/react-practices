@@ -1,5 +1,28 @@
 import * as React from 'react';
 
+const initialStories = [
+  {
+    title: 'React',
+    url: 'https://reactjs.org/',
+    author: 'Jordan Walke',
+    num_comments: 3,
+    points: 4,
+    objectID: 0,
+  },
+  {
+    title: 'Redux',
+    url: 'https://redux.js.org/',
+    author: 'Dan Abramov, Andrew Clark',
+    num_comments: 2,
+    points: 5,
+    objectID: 1,
+  },
+];
+
+
+
+
+
 
 const useStorageState = (key, initialState) => {
   const [value, setValue] = React.useState(
@@ -11,36 +34,20 @@ const useStorageState = (key, initialState) => {
   return [value, setValue];
 };
 function App() {
-  const stories = [
-    {
-      title: 'React',
-      url: 'https://reactjs.org/',
-      author: 'Jordan Walke',
-      num_comments: 3,
-      points: 4,
-      objectID: 0,
-    },
-    {
-      title: 'Redux',
-      url: 'https://redux.js.org/',
-      author: 'Dan Abramov, Andrew Clark',
-      num_comments: 2,
-      points: 5,
-      objectID: 1,
-    },
-    {
-      title: 'express',
-      url: 'https://redux.js.org/',
-      author: 'Dan Abramov, Andrew Clark',
-      num_comments: 2,
-      points: 5,
-      objectID: 2,
-    },
-  ];
+
 
   const [searchTerm, setSearchTerm] = useStorageState(
     'search',
     'React');
+
+  const [stories, setStories] = React.useState(initialStories);
+  const handleRemoveStory = (item) => {
+    const newStories = stories.filter(
+      (story) => item.objectID !== story.objectID
+    );
+    setStories(newStories);
+  };
+
   // A callback handler gets
   //   introduced as event handler(A), is passed as function in props to another component(B), is executed
   //   there as callback handler(C), and calls back to the place it was introduced(D):
@@ -71,7 +78,7 @@ function App() {
       >
         <strong>Search:</strong>
       </InputWithLabel>
-      <List list={searchedStories} />
+      <List list={searchedStories} onRemoveItem={handleRemoveStory} />
     </div>
 
 
@@ -80,23 +87,38 @@ function App() {
 }
 
 // Variation 2: Spread and Rest Operators
-const List = ({ list }) => (
+const List = ({ list, onRemoveItem }) => (
   <ul>
-    {list.map(({ objectID, ...item }) => (
-      <Item key={objectID} {...item} />
+    {list.map((item) => (
+      <Item
+        key={item.objectID}
+        item={item}
+        onRemoveItem={onRemoveItem}
+      />
     ))}
   </ul>
 );
-const Item = ({ title, url, author, num_comments, points }) => (
-  <li>
-    <span>
-      <a href={url}>{title}</a>
-    </span>
-    <span>{author}</span>
-    <span>{num_comments}</span>
-    <span>{points}</span>
-  </li>
-);
+const Item = ({ item, onRemoveItem }) => {
+  const handleRemoveItem = () => {
+    onRemoveItem(item);
+  };
+  return (
+    <li>
+      <span>
+        <a href={item.url}>{item.title}</a>
+      </span>
+      <span>{item.author}</span>
+      <span>{item.num_comments}</span>
+      <span>{item.points}</span>
+      <span>
+        <button type="button" onClick={handleRemoveItem}>
+          Dismiss
+        </button>
+        {/* <button type="button" onClick={() => onRemoveItem(item)}></button> */}
+      </span>
+    </li>
+  );
+};
 
 const InputWithLabel = ({
   id,
