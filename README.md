@@ -1,5 +1,5 @@
 # Registro de Prácticas de React - Documentación Personal
-
+Las prácticas están divididas en diferentes ramas
 ## Perfil de Aprendizaje y Desarrollo
  
 ## Objetivo de Aprendizaje
